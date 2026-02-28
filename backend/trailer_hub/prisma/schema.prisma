@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Trailer {
+  id             String   @id @default(uuid())
+  titulo         String
+  img            String
+  youtube        String
+  descricao      String
+  categoria      String[]
+  relacionados   String[]
+  classificacao  Int?
+
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id])
+
+  favorites      Favorite[]
+  likes          Like[]
+
+  @@map("trailers")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  userName  String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+
+  trailers  Trailer[]
+  favorites Favorite[]
+  likes     Like[]
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  userId    String
+  trailerId String
+
+  user      User    @relation(fields: [userId], references: [id])
+  trailer   Trailer @relation(fields: [trailerId], references: [id])
+
+  @@unique([userId, trailerId])
+}
+
+model Like {
+  id        String   @id @default(uuid())
+
+  userId    String
+  trailerId String
+
+  user      User    @relation(fields: [userId], references: [id])
+  trailer   Trailer @relation(fields: [trailerId], references: [id])
+
+  @@unique([userId, trailerId])
+}
+
+enum Role {
+  ADMIN
+  USER
+}
