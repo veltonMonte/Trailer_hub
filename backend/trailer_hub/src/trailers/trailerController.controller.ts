@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
 import { Roles } from "src/auth/decorators/role.decorator";
 import { JwtAuthGuard } from "src/auth/guards/jwt.guards";
 import { RolesGuard } from "src/auth/guards/roles.guards";
@@ -14,6 +14,11 @@ export class TrailerController {
     @Post()
     create(@Body() data: CreateTrailerDto) {
         return this.trailerService.createTrailer(data);
+    }
+
+    @Get('home')
+    getHomeFeed() {
+        return this.trailerService.getHomeFeed();
     }
 
     @UseGuards(JwtAuthGuard, RolesGuard)
