@@ -27,7 +27,6 @@ model Trailer {
   likes          Like[]
 
   @@map("trailers")
-  categories Category[]
 }
 
 model User {
@@ -71,7 +70,6 @@ model Category {
   id   String @id @default(uuid())
   name String @unique
 
-  trailers Trailer[]
 }
 
 enum Role {

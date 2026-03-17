@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtPayload } from 'src/auth/interfaces/jwt-payload.interface';
+import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 
 
 @Injectable()
