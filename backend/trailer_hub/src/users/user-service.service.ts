@@ -21,7 +21,11 @@ export class UsersService {
         this.checkPermission(id, currentUser);
 
         if(currentUser.role !== 'ADMIN') {
-            delete (data as any).role;
+            const { role, ...safeData } = data;
+            const { password, ...resunt } = await this.prisma.user.update({
+                where: { id },
+                data: safeData,
+            });
         }
 
         return this.prisma.user.update({

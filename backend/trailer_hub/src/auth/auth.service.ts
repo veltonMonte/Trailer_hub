@@ -49,15 +49,15 @@ export class AuthService {
         });
 
         if (!user) {
-            throw new NotFoundException('login ou senha inválidos.');
+            throw new UnauthorizedException('Credenciais inválidas.');
         }
 
         const isPasswordValid = await bcrypt.compare(
             data.password,
             user.password
         );
-        if (!isPasswordValid) {
-            throw new UnauthorizedException("Credenciais inválidas.");
+        if (!user || !isPasswordValid) {
+            throw new UnauthorizedException('Credenciais inválidas.');
         }
 
         const payload = {

@@ -13,11 +13,11 @@ import { PrismaModule } from "../prisma/prisma.module";
     PrismaModule,
     PassportModule,
     JwtModule.register({
-      secret: "secret",
+      secret: process.env.JWT_SECRET, // ← verificar se já está assim
       signOptions: { expiresIn: "1d" },
-    }),
+    })
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
 })
-export class AuthModule {}
+export class AuthModule { }

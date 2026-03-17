@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { TrailerService } from './trailerService.service';
@@ -15,6 +16,7 @@ import { UpdateTrailerDto } from './dto/updateTrailerDto.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt.guards';
 import { RolesGuard } from '../auth/guards/roles.guards';
 import { Roles } from '../auth/decorators/role.decorator';
+import { JwtPayload } from 'src/auth/interfaces/jwt-payload.interface';
 
 @Controller('trailers')
 export class TrailerController {
@@ -33,8 +35,9 @@ export class TrailerController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN')
   @Post()
-  create(@Body() data: CreateTrailerDto) {
-    return this.trailerService.createTrailer(data);
+  create(@Body() data: CreateTrailerDto,
+          @Req() req: Request & { user: JwtPayload }) {
+    return this.trailerService.createTrailer(data, req.user.sub);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

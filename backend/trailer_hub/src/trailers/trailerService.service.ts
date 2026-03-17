@@ -20,9 +20,13 @@ export class TrailerService {
     return trailer;
   }
 
-  async createTrailer(data: CreateTrailerDto) {
+  async createTrailer(data: CreateTrailerDto, userId: string) {
     return this.prisma.trailer.create({
-      data,
+      data: {
+        ...data,
+        userId
+      }
+      
     });
   }
 
